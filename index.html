@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Prototypes - 自然选择号</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+        
+        h1 {
+            font-size: 48px;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .prototypes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+        }
+        
+        .prototype-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .prototype-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .prototype-card h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .prototype-card .meta {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+        
+        .prototype-card .theme {
+            display: inline-block;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .prototype-card a {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+        
+        .prototype-card a:hover {
+            opacity: 0.9;
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+        }
+        
+        .empty-state h2 {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+        
+        .empty-state p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 Product Prototypes</h1>
+            <p class="subtitle">自然选择号 · 产品原型展示平台</p>
+        </header>
+        
+        <div id="prototypes-list" class="prototypes-grid">
+            <div class="empty-state">
+                <h2>🚀 即将上线</h2>
+                <p>第一个原型正在生成中...</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 自动扫描 prototypes 目录并生成列表
+        // 注意：这需要 GitHub Actions 在部署时生成
+        console.log('Product Prototypes Platform Loaded');
+        console.log('Waiting for prototypes to be deployed...');
+    </script>
+</body>
+</html>
