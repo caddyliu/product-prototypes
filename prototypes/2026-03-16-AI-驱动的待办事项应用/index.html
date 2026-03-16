@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【AI 驱动的待办事项应用】- 全页面原型</title>
+    <style>
+        /* ===== 1. Reset ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box }
+
+        /* ===== 2. Body（主题：🌙 暗夜科技） ===== */
+        body {
+            font-family: -apple-system, 'PingFang SC', 'SF Pro Rounded', sans-serif;
+            background: #F0EBE3;
+            color: #3D3D3D;
+            line-height: 1.6;
+            padding: 40px 20px
+        }
+
+        /* ===== 3. Design Tokens ===== */
+        :root {
+            --primary: #00D4FF;
+            --primary-light: #66E5FF;
+            --primary-dark: #0099CC;
+            --bg: #0A0E1A;
+            --card-bg: #1A1F2E;
+            --text: #FFFFFF;
+            --text-secondary: #8899AA;
+            --border: #2A3550;
+            --success: #00FF88;
+            --warning: #FFAA00;
+            --error: #FF4466;
+            --sp-2: 2px;
+            --sp-4: 4px;
+            --sp-8: 8px;
+            --sp-12: 12px;
+            --sp-16: 16px;
+            --sp-20: 20px;
+            --sp-24: 24px;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-full: 999px;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+        }
+
+        /* ===== 4. 通用组件 ===== */
+        .pt { font-size: 24px; font-weight: 800; margin-bottom: var(--sp-8); color: var(--text); }
+        .pd { font-size: 14px; color: var(--text-secondary); margin-bottom: var(--sp-24); }
+        .pg { display: flex; flex-wrap: wrap; gap: var(--sp-24); }
+        .pw { flex-shrink: 0; }
+        .pl { font-size: 14px; font-weight: 600; margin-bottom: var(--sp-8); color: var(--text); }
+        .ph {
+            width: 375px;
+            height: 812px;
+            background: var(--bg);
+            border-radius: var(--radius-lg);
+            border: 8px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+        .pn {
+            width: 150px;
+            height: 30px;
+            background: #333;
+            border-radius: 0 0 15px 15px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        .sb {
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--sp-16);
+            color: var(--text);
+            font-size: 12px;
+        }
+        .sbr { display: flex; gap: var(--sp-4); }
+        .ps {
+            height: calc(812px - 44px - 83px);
+            overflow-y: auto;
+            padding: var(--sp-16);
+        }
+        .tb {
+            height: 83px;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            padding-top: var(--sp-8);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--sp-4);
+            color: var(--text-secondary);
+            font-size: 10px;
+        }
+        .tab-item.active { color: var(--primary); }
+        .tab-icon { font-size: 20px; }
+        
+        /* 卡片样式 */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: var(--sp-16);
+            margin-bottom: var(--sp-12);
+            box-shadow: var(--shadow-sm);
+        }
+        .card-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: var(--sp-8);
+        }
+        .card-content {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            background: var(--primary);
+            color: var(--bg);
+            border: none;
+            border-radius: var(--radius-full);
+            padding: var(--sp-12) var(--sp-24);
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            margin-top: var(--sp-16);
+        }
+        .btn:active { background: var(--primary-dark); }
+        
+        /* 列表样式 */
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-12);
+            padding: var(--sp-12) 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .list-item:last-child { border-bottom: none; }
+        .list-icon { font-size: 24px; }
+        .list-content { flex: 1; }
+        .list-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: var(--sp-4); }
+        .list-desc { font-size: 13px; color: var(--text-secondary); }
+        
+        /* 主题差异化样式 */
+        .st { font-size: 20px; font-weight: 700; margin: var(--sp-24) 0 var(--sp-12); color: var(--text); }
+        .ss { font-size: 14px; color: var(--text-secondary); margin-bottom: var(--sp-16); }
+    </style>
+</head>
+<body>
+    <!-- 页面标题 -->
+    <h1 class="pt">🚀 AI 驱动的待办事项应用</h1>
+    <p class="pd">全页面高保真交互原型 · 🌙 暗夜科技 · 共 3 个页面 · 2026-03-16</p>
+    
+    <div class="pg">
+        <!-- 分区标题 -->
+        <h2 class="st">📱 主要页面</h2>
+        <p class="ss">核心功能流程展示</p>
+        
+        
+        <!-- 页面 1: 首页 -->
+        <div class="pw">
+            <div class="pl">1. 首页</div>
+            <div class="ph">
+                <div class="pn"></div>
+                <div class="sb">
+                    <span>9:41</span>
+                    <div class="sbr">📶 🔋</div>
+                </div>
+                <div class="ps">
+                    
+    <div class="card">
+        <div class="card-title">👋 欢迎使用AI 驱动的待办事项应用</div>
+        <div class="card-content">
+            这是智能推荐的首屏内容，根据您的偏好和使用习惯个性化展示。
+        </div>
+        <button class="btn">开始使用</button>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">🔥 热门推荐</div>
+        <div class="list-item">
+            <span class="list-icon">⭐</span>
+            <div class="list-content">
+                <div class="list-title">热门功能 1</div>
+                <div class="list-desc">这是功能的简短描述，吸引用户点击</div>
+            </div>
+        </div>
+        <div class="list-item">
+            <span class="list-icon">🎯</span>
+            <div class="list-content">
+                <div class="list-title">热门功能 2</div>
+                <div class="list-desc">另一个受欢迎的功能</div>
+            </div>
+        </div>
+        <div class="list-item">
+            <span class="list-icon">💡</span>
+            <div class="list-content">
+                <div class="list-title">热门功能 3</div>
+                <div class="list-desc">更多实用功能等你发现</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">📊 数据统计</div>
+        <div style="display: flex; gap: 12px; margin-top: 12px;">
+            <div style="flex: 1; background: rgba(0, 212, 255, 0.1); padding: 16px; border-radius: 12px; text-align: center;">
+                <div style="font-size: 24px; font-weight: 700; color: #00D4FF;">1,234</div>
+                <div style="font-size: 12px; color: #8899AA; margin-top: 4px;">总用户</div>
+            </div>
+            <div style="flex: 1; background: rgba(0, 255, 136, 0.1); padding: 16px; border-radius: 12px; text-align: center;">
+                <div style="font-size: 24px; font-weight: 700; color: #00FF88;">98%</div>
+                <div style="font-size: 12px; color: #8899AA; margin-top: 4px;">满意度</div>
+            </div>
+        </div>
+    </div>
+    
+                </div>
+                <div class="tb">
+                    <div class="tab-item active">
+                        <span class="tab-icon">🏠</span>
+                        <span>首页</span>
+                    </div>
+                    <div class="tab-item">
+                        <span class="tab-icon">⚡</span>
+                        <span>功能</span>
+                    </div>
+                    <div class="tab-item">
+                        <span class="tab-icon">👤</span>
+                        <span>我的</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 页面 2: 功能页 -->
+        <div class="pw">
+            <div class="pl">2. 功能页</div>
+            <div class="ph">
+                <div class="pn"></div>
+                <div class="sb">
+                    <span>9:41</span>
+                    <div class="sbr">📶 🔋</div>
+                </div>
+                <div class="ps">
+                    
+    <div class="card">
+        <div class="card-title">⚡ 核心功能</div>
+        <div class="card-content">
+            这是产品的核心功能区域，展示主要的使用场景和交互流程。
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">📝 功能列表</div>
+        <div class="list-item">
+            <span class="list-icon">✅</span>
+            <div class="list-content">
+                <div class="list-title">功能项 1</div>
+                <div class="list-desc">详细描述功能的使用方法和价值</div>
+            </div>
+        </div>
+        <div class="list-item">
+            <span class="list-icon">🎯</span>
+            <div class="list-content">
+                <div class="list-title">功能项 2</div>
+                <div class="list-desc">另一个重要功能</div>
+            </div>
+        </div>
+        <button class="btn">立即体验</button>
+    </div>
+    
+                </div>
+                <div class="tb">
+                    <div class="tab-item active">
+                        <span class="tab-icon">🏠</span>
+                        <span>首页</span>
+                    </div>
+                    <div class="tab-item">
+                        <span class="tab-icon">⚡</span>
+                        <span>功能</span>
+                    </div>
+                    <div class="tab-item">
+                        <span class="tab-icon">👤</span>
+                        <span>我的</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 页面 3: 个人中心 -->
+        <div class="pw">
+            <div class="pl">3. 个人中心</div>
+            <div class="ph">
+                <div class="pn"></div>
+                <div class="sb">
+                    <span>9:41</span>
+                    <div class="sbr">📶 🔋</div>
+                </div>
+                <div class="ps">
+                    
+    <div class="card" style="text-align: center; padding: 24px 16px;">
+        <div style="font-size: 64px; margin-bottom: 12px;">👤</div>
+        <div style="font-size: 20px; font-weight: 700; color: var(--text);">用户名</div>
+        <div style="font-size: 14px; color: var(--text-secondary); margin-top: 4px;">用户 ID: 12345</div>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">⚙️ 设置</div>
+        <div class="list-item">
+            <span class="list-icon">🔔</span>
+            <div class="list-content">
+                <div class="list-title">通知设置</div>
+                <div class="list-desc">管理推送通知</div>
+            </div>
+            <span style="color: var(--text-secondary);">›</span>
+        </div>
+        <div class="list-item">
+            <span class="list-icon">🔒</span>
+            <div class="list-content">
+                <div class="list-title">隐私与安全</div>
+                <div class="list-desc">保护您的账号安全</div>
+            </div>
+            <span style="color: var(--text-secondary);">›</span>
+        </div>
+        <div class="list-item">
+            <span class="list-icon">❓</span>
+            <div class="list-content">
+                <div class="list-title">帮助与反馈</div>
+                <div class="list-desc">遇到问题？联系我们</div>
+            </div>
+            <span style="color: var(--text-secondary);">›</span>
+        </div>
+    </div>
+    
+    <button class="btn" style="background: var(--error); color: white;">退出登录</button>
+    
+                </div>
+                <div class="tb">
+                    <div class="tab-item active">
+                        <span class="tab-icon">🏠</span>
+                        <span>首页</span>
+                    </div>
+                    <div class="tab-item">
+                        <span class="tab-icon">⚡</span>
+                        <span>功能</span>
+                    </div>
+                    <div class="tab-item">
+                        <span class="tab-icon">👤</span>
+                        <span>我的</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
